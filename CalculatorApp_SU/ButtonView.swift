@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ButtonView: View {
     
-    var button: AllButton
+    @EnvironmentObject private var viewModel: CalculatorViewModel
+    
+    let button: AllButton
     var backgroundColor: Color
     var foregroundColor: Color
     
@@ -17,7 +19,7 @@ struct ButtonView: View {
     
     var body: some View {
         Button {
-            //
+            viewModel.performAction(button: button)
         } label: {
             Capsule()
                 .foregroundColor(backgroundColor)
