@@ -28,6 +28,7 @@ struct CalculatorView: View {
             textAmount
             buttonCells
         }
+        .padding(padding)
         .background(Color.black)
     }
 }

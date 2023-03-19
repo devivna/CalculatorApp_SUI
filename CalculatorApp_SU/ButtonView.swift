@@ -19,13 +19,14 @@ struct ButtonView: View {
         Button {
             //
         } label: {
-            Circle()
+            Capsule()
                 .foregroundColor(backgroundColor)
-                .frame(width: getButtonSize())
-                .overlay {
+                .frame(height: getButtonSize())
+                .frame(maxWidth: button.description == "0" ? .infinity : getButtonSize())
+                .overlay(alignment: button.description == "0" ? .leading : .center) {
                     if button.format.description == "image" {
                         Image(systemName: button.description)
-                            .font(.title)
+                            .font(.largeTitle)
                             .fontWeight(.semibold)
                             .foregroundColor(foregroundColor)
                             .padding()
@@ -35,8 +36,10 @@ struct ButtonView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(foregroundColor)
                             .padding()
+                            .padding(.leading, button.description == "0" ? padding * 2 : 0)
                     }
                 }
+                
         }
     }
     
@@ -52,6 +55,6 @@ struct ButtonView: View {
 
 struct ButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonView(button: AllButton.digit(.eight), backgroundColor: .orange, foregroundColor: .white)
+        ButtonView(button: AllButton.digit(.zero), backgroundColor: .orange, foregroundColor: .white)
     }
 }
