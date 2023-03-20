@@ -17,16 +17,37 @@ struct Calculator {
     
     // Empty Decimal: creates a decimal initialized to 0.
     private var newNumber: Decimal?
+    private var expression: ArithmeticExpression?
+    private var result: Decimal?
     
     private var currentNumber: Decimal? {
-        newNumber
+        newNumber ?? expression?.firstNumber ?? result
     }
     
     var displayText: String {
         return getNumberString(number: currentNumber, withCommas: true)
     }
     
+    // MARK: struct
     
+    private struct ArithmeticExpression {
+        var firstNumber: Decimal
+        var operation: ArithmeticOperation
+        
+        // why num1 set apart from num2
+        func calculate(with secondNumber: Decimal) -> Decimal {
+            switch operation {
+            case .addition:
+                return firstNumber + secondNumber
+            case .subtraction:
+                return firstNumber - secondNumber
+            case .multiplication:
+                return firstNumber * secondNumber
+            case .division:
+                return firstNumber / secondNumber
+            }
+        }
+    }
     
     //MARK: Functions
     
@@ -48,6 +69,19 @@ struct Calculator {
         newNumber = Decimal(string: numberString.appending("\(digit.rawValue)"))
     }
     
+    mutating func setOperation(_ operation: ArithmeticOperation) {
+            // set to number of new value or result of previous expression
+            guard var number = newNumber ?? result else { return }
+            // if earlier user make evaluation -> do this operation again
+            if let existingExpression = expression {
+                number = existingExpression.calculate(with: number)
+            }
+            // if not previous operation or user choose another operation -> set this expression
+            expression = ArithmeticExpression(firstNumber: number, operation: operation)
+            // 4.
+            newNumber = nil
+        }
+    
     mutating func allClear() {
     }
     
@@ -60,8 +94,6 @@ struct Calculator {
     mutating func setPercent() {
     }
     
-    mutating func setOperation(_ operation: ArithmeticOperation) {
-    }
         
     mutating func setDecimal() {
     }
