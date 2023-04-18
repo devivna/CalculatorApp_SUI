@@ -82,6 +82,19 @@ struct Calculator {
             newNumber = nil
         }
     
+/*
+ Unwrap newNumber and expression (expression contains the previous number and operation)
+ Evaluate expression with newNumber and assign to result
+ Reset expression and newNumber
+ */
+    
+    mutating func evaluate() {
+            guard let number = newNumber, let expressionToEvaluate = expression else { return }
+            result = expressionToEvaluate.calculate(with: number)
+            expression = nil
+            newNumber = nil
+    }
+    
     mutating func allClear() {
     }
     
@@ -98,7 +111,5 @@ struct Calculator {
     mutating func setDecimal() {
     }
     
-    mutating func evaluate() {
-    }
 }
 
